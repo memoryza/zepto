@@ -25,7 +25,7 @@
       ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/[\d](?=[^\?]+).*rv:([0-9.].)/),
       webview = !chrome && ua.match(/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/),
       safari = webview || ua.match(/Version\/([\d.]+)([^S](Safari)|[^M]*(Mobile)[^S]*(Safari))/)
-
+      symbian = ua.match(/SymbianOS\/([\d.]+)/)
     // Todo: clean this up with a better OS/browser seperation:
     // - discern (more) between multiple browsers on android
     // - decide if kindle fire in silk mode is android or not
@@ -44,8 +44,10 @@
     if (blackberry) os.blackberry = true, os.version = blackberry[2]
     if (bb10) os.bb10 = true, os.version = bb10[2]
     if (rimtabletos) os.rimtabletos = true, os.version = rimtabletos[2]
-    if (playbook) browser.playbook = true
     if (kindle) os.kindle = true, os.version = kindle[1]
+    if (symbian) os.symbian = true, os.version = symbian[1]
+    
+    if (playbook) browser.playbook = true
     if (silk) browser.silk = true, browser.version = silk[1]
     if (!silk && os.android && ua.match(/Kindle Fire/)) browser.silk = true
     if (chrome) browser.chrome = true, browser.version = chrome[1]
@@ -54,7 +56,7 @@
     if (safari && (osx || os.ios)) {browser.safari = true; if (osx) browser.version = safari[1]}
     if (webview) browser.webview = true
 
-    os.tablet = !!(ipad || playbook || (android && !ua.match(/Mobile/)) ||
+    os.tablet = !!(ipad || playbook || symbian || (android && !ua.match(/Mobile/)) ||
       (firefox && ua.match(/Tablet/)) || (ie && !ua.match(/Phone/) && ua.match(/Touch/)))
     os.phone  = !!(!os.tablet && !os.ipod && (android || iphone || webos || blackberry || bb10 ||
       (chrome && ua.match(/Android/)) || (chrome && ua.match(/CriOS\/([\d.]+)/)) ||
